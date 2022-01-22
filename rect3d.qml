@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick3D
+import QtQuick.Timeline
 
 View3D {
     width: 200
@@ -32,7 +33,6 @@ View3D {
                 diffuseColor: "red"
             }
         ]
-        NumberAnimation on position.z { from: 0; to: 400; duration: 5000; loops: -1 }
     }
 
     Node {
@@ -42,6 +42,28 @@ View3D {
             color: "yellow"
             width: 100
             height: 100
+        }
+    }
+
+    Timeline {
+        id: timeline
+        startFrame: 0
+        endFrame: 1000
+        enabled: true
+        NumberAnimation on currentFrame { from: 0; to: 1000; duration: 5000; loops: -1 }
+
+        KeyframeGroup {
+            target: camera
+            property: "position.z"
+
+            Keyframe {
+                frame: 0
+                value: 500
+            }
+            Keyframe {
+                frame: 1000
+                value: 0
+            }
         }
     }
 }
