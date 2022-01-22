@@ -51,7 +51,8 @@ int main(int argc, char *argv[])
     QScopedPointer<QQuickWindow> quickWindow(new QQuickWindow(renderControl.data()));
 
     QScopedPointer<QQmlEngine> qmlEngine(new QQmlEngine);
-    QScopedPointer<QQmlComponent> qmlComponent(new QQmlComponent(qmlEngine.data(), QLatin1String("rect3d.qml")));
+    auto qmlPathname = QCoreApplication::arguments().at(1);
+    QScopedPointer<QQmlComponent> qmlComponent(new QQmlComponent(qmlEngine.data(), qmlPathname));
     Q_ASSERT(!qmlComponent->isLoading());
     if (qmlComponent->isError()) {
         for (const QQmlError &error : qmlComponent->errors())
@@ -155,8 +156,8 @@ int main(int argc, char *argv[])
         QImage img = result;
         Q_ASSERT(!img.isNull());
 
-        if (frame == 0 || frame == 50 || frame == 75 || frame == 99) {
-            img.save(QString::asprintf("screenshot-%d.png", frame));
+        if (frame == 0 || frame == 25 || frame == 50 || frame == 75 || frame == 99) {
+            img.save(qmlPathname + QString::asprintf("-screenshot-%d.png", frame));
         }
     }
     return 0;

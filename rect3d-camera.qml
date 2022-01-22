@@ -46,7 +46,6 @@ View3D {
     }
 
     Timeline {
-        id: timeline
         startFrame: 0
         endFrame: 1000
         enabled: true
