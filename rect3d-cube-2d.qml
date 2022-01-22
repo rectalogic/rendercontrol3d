@@ -1,10 +1,9 @@
 import QtQuick
 import QtQuick3D
-import QtQuick.Timeline
 
 View3D {
-    width: 200
-    height: 200
+    width: 300
+    height: 300
 
     environment: SceneEnvironment {
         clearColor: "skyblue"
@@ -25,14 +24,16 @@ View3D {
     }
 
     Model {
+        property real cubeZ: 0
         id: cube
-        position: Qt.vector3d(0, 0, 0)
+        position: Qt.vector3d(0, 0, cubeZ)
         source: "#Cube"
         materials: [
             DefaultMaterial {
                 diffuseColor: "red"
             }
         ]
+        NumberAnimation on cubeZ { from: 0; to: 500; duration: 2000; loops: -1 }
     }
 
     Node {
@@ -42,27 +43,14 @@ View3D {
             color: "yellow"
             width: 100
             height: 100
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                text: "cubeZ " + cube.position.z
+                color: "black"
+                font.pointSize: 18
+            }
         }
-    }
-
-    Timeline {
-        startFrame: 0
-        endFrame: 1000
-        enabled: true
-        NumberAnimation on currentFrame { from: 0; to: 1000; duration: 5000; loops: -1 }
-
-        KeyframeGroup {
-            target: cube
-            property: "position.z"
-
-            Keyframe {
-                frame: 0
-                value: 0
-            }
-            Keyframe {
-                frame: 1000
-                value: 500
-            }
         }
     }
 }

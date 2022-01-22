@@ -1,10 +1,9 @@
 import QtQuick
 import QtQuick3D
-import QtQuick.Timeline
 
 View3D {
-    width: 200
-    height: 200
+    width: 300
+    height: 300
 
     environment: SceneEnvironment {
         clearColor: "skyblue"
@@ -14,9 +13,11 @@ View3D {
     }
 
     PerspectiveCamera {
+        property real cameraZ: 500
         id: camera
-        position: Qt.vector3d(0, 200, 500)
+        position: Qt.vector3d(0, 200, cameraZ)
         eulerRotation.x: -30
+        NumberAnimation on cameraZ { from: 500; to: 0; duration: 2000; loops: -1 }
     }
 
     DirectionalLight {
@@ -40,28 +41,14 @@ View3D {
         Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             color: "yellow"
-            width: 100
-            height: 100
-        }
-    }
-
-    Timeline {
-        startFrame: 0
-        endFrame: 1000
-        enabled: true
-        NumberAnimation on currentFrame { from: 0; to: 1000; duration: 5000; loops: -1 }
-
-        KeyframeGroup {
-            target: camera
-            property: "position.z"
-
-            Keyframe {
-                frame: 0
-                value: 500
-            }
-            Keyframe {
-                frame: 1000
-                value: 0
+            width: 200
+            height: 200
+            Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                text: "camZ " + camera.position.z
+                color: "black"
+                font.pointSize: 18
             }
         }
     }
