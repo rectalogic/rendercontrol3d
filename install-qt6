@@ -2,4 +2,4 @@
 
 python -m venv venv
 venv/bin/pip install aqtinstall
-venv/bin/python -m aqt install-qt mac desktop 6.2.2 -m qtquick3d qtshadertools qtquicktimeline -O qt
+venv/bin/python -m aqt install-qt mac desktop 6.4.0 -m qtquick3d qtshadertools qtquicktimeline -O qt

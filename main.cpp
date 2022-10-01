@@ -91,20 +91,20 @@ int main(int argc, char *argv[])
     const QSize size = rootItem->size().toSize();
     QScopedPointer<QRhiTexture> tex(rhi->newTexture(QRhiTexture::RGBA8, size, 1,
                                                     QRhiTexture::RenderTarget | QRhiTexture::UsedAsTransferSource));
-    Q_ASSERT(tex->create());
+    tex->create();
 
     // depth-stencil is mandatory with RHI, although strictly speaking the
     // scenegraph could operate without one, but it has no means to figure out
     // the lack of a ds buffer, so just be nice and provide one.
     QScopedPointer<QRhiRenderBuffer> ds(rhi->newRenderBuffer(QRhiRenderBuffer::DepthStencil, size, 1));
-    Q_ASSERT(ds->create());
+    ds->create();
 
     QRhiTextureRenderTargetDescription rtDesc(QRhiColorAttachment(tex.data()));
     rtDesc.setDepthStencilBuffer(ds.data());
     QScopedPointer<QRhiTextureRenderTarget> texRt(rhi->newTextureRenderTarget(rtDesc));
     QScopedPointer<QRhiRenderPassDescriptor> rp(texRt->newCompatibleRenderPassDescriptor());
     texRt->setRenderPassDescriptor(rp.data());
-    Q_ASSERT(texRt->create());
+    texRt->create();
 
     // redirect Qt Quick rendering into our texture
     quickWindow->setRenderTarget(QQuickRenderTarget::fromRhiRenderTarget(texRt.data()));
